@@ -1,3 +1,12 @@
+---
+title: 'Tutorial 2'
+output: html_document
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(echo = TRUE, eval=F, include=T)
+```
+
 # Voltando ao zero - O básico do R
 
 No tutorial anterior, começamos "do meio", ou seja, fizemos a primeira incursão na linguagem R aprendendo um pouco sobre _data frames_. Vamos, no presente tutorial, "começar do zero" e aprender sobre os aspectos elementares da linguagem R para, na etapa seguinte, avançar nosso conhecimento sobre _data frames_ e demais aspectos da linguagem.
@@ -52,9 +61,9 @@ Nos exemplos acima realizamos operações bastante simples sem usar objetos, ou,
 
 O outro uso é sinônimo de objeto no R. Nos referimos à "variável x", quando atribuímos algo -- um número ou um texto, por exemplo -- a "x". 
 
-Nos tutoriais, vamos fazer uso de variável com ambos significados. Fique atent@, mas com o tempo você se acostumará.
+Nos tutoriais, vamos fazer uso de variável com ambos significados. Fique atenta, mas com o tempo você se acostumará.
 
-Voltando às operações matemáticas, vamos criar uma variável "x" com o valor 42. Ao criar uma variável que armazena apenas um número, estamos criando um vetor atômico (pois vetores atômicos são os vetores de tamanho 1).
+Voltando às operações matemáticas, vamos criar uma variável "x" com o valor 42. Ao criar uma variável que armazena apenas um número, estamos criando um escalar ou vetor atômico (pois vetores atômicos são os vetores de tamanho 1).
 
 ```{r}
 x <- 42
@@ -80,13 +89,12 @@ Em várias outras linguagens, e em R inclusive, usa-se a função _print_ para i
 print(x)
 ```
 
-Quando usar print? Veremos no futuro que, dependendo da situação (por exemplo, dentro de funções), é preciso explicitar que queremos "imprimir" algo, e, nestes casos, usamos a função _print_.
+Quando usar print? Veremos no futuro que, dependendo da situação (por exemplo, dentro de funções), é preciso explicitar que queremos "imprimir" algo no console, e, nestes casos, usamos a função _print_.
 
 Vamos criar mais uma variável, y, e fazer operações com variáveis:
 
 ```{r}
 y <- 5
-
 x + y
 x - y
 x / y
@@ -140,7 +148,7 @@ class(vetor_logico)
 Detalhes para observarmos:
 
 - No caso do vetor numérico, não importa se usamos números com casas decimais.
-- Para vetores do tipo "character", não importa o que há dentro dos parêntese. Tudo é texto.
+- Para vetores do tipo "character", não importa o que há dentro das aspas. Tudo é texto.
 - Você pode usar TRUE ou T, FALSE ou F, alternadamente. O R entende o que você quer dizer. Lembre-se de sempre usar maiúsculas.
 
 ## Exercícios:
@@ -175,7 +183,7 @@ sequencia_reversa <- 10:1
 print(sequencia_reversa)
 ```
 
-Podemos combinar sequências que contém um intervalo, ou mesmo sequências que se sobrepõe, em um único vetor:
+Podemos combinar sequências que contêm um intervalo, ou mesmo sequências que se sobrepõem, em um único vetor:
 
 ```{r}
 sequencia_intervalo <- c(1:10, 20:30)
@@ -188,7 +196,7 @@ print(sequencia_sobreposicao)
 
 Ei, você advinhou a fórmula de conversão de temperatura de celsius para farenheit um pouco acima no tutorial? Bem, vamos usá-la num exemplo.
 
-Comecemos com um vetor de temperaturas médias dos meses de dezembro a abril em um lugar qualquer do hemisfério Norte:
+Comecemos com um vetor de temperaturas médias dos meses de dezembro a abril em um lugar qualquer do hemisfério Norte (para podermos trabalhar com o final do ano e temperaturas negativas):
 
 ```{r}
 temperatura_celsius <- c(-7, -10, 5, 12, 21)
@@ -204,7 +212,7 @@ Veja que as operações são aplicadas a todos os elementos do vetor.
 
 ## Nomes do vetor
 
-Aproveitando o exemplo, os elementos de um vetor podem ser nomeados. O vetor "temperatura_celsius", por enquanto, não tem nome:
+Aproveitando o exemplo, os elementos de um vetor podem ser nomeados. O vetor "temperatura_celsius", por enquanto, não tem nomes:
 
 ```{r}
 names(temperatura_celsius)
@@ -214,7 +222,7 @@ names(temperatura_celsius)
 
 Se quiseremos atribuir os nomes aos elementos de "temperatura_celsius", atribuimos um vetor a "names(temperatura_celsius)". Esse uso da linguagem é um pouco estranho, pois estamos atribuindo algo a uma função de um objeto, não a um objeto.
 
-Uma maneira de pensar esse uso menos confusa, é imaginar que um objeto tem várias partes e que estamos atribuindo algo a uma parte específica -- os nomes dos elementos, no caso -- deste objeto. Veja:
+Uma maneira menos confusa de pensar esse uso é imaginar que um objeto tem várias partes e que estamos atribuindo algo a uma parte específica -- os nomes dos elementos, no caso -- deste objeto. Veja:
 
 ```{r}
 names(temperatura_celsius) <- c("dezembro", "janeiro", "fevereiro", "março", "abril")
@@ -236,7 +244,7 @@ A vantagem deste processo é poder usar mais de uma vez o vetor de nomes sem pre
 
 ## Operações entre vetores
 
-Criemos dois vetores, cada um registrando os gastos com sorvete e café de um pessoa em cada dia da semana, sábado e domingo, inclusive:
+Criemos dois vetores, cada um registrando os gastos com sorvete e café de um pessoa em cada dia da semana, sábado e domingo inclusive:
 
 ```{r}
 semana_1 <- c(32, 20, 15, 20, 18, 19, 40)
@@ -309,13 +317,14 @@ semana_1[dias_uteis]
 ## Exercício:
 
 - Crie dois novos vetores. No primeiro, anote (invente) o número de palavras que você escreveu para sua tese/dissertação/pesquisa em cada mês, considerando os últimos seis meses (setembro a fevereiro). No segundo, anote (chute, novamente) quantos litros de café você tomou em cada mês. 
-- Nomeie os elementos dos 2 vetores. 
+- Nomeie os elementos dos 2 vetores com o mês apropriado. 
 - Calcule sua produtividade em "palavras por Litro de café". Atribua o resultado a um novo vetor
-- Gere um subcojunto do novo vetor com a produtividade no final 2016 e outro com a produtividade no começo de 2017.
+- Gere um subconjunto do novo vetor com a produtividade em setembro, outubro, novembro, e dezembro, e outro com a produtividade em janeiro e fevereiro.
+- Calcule a diferença entre a sua produtividade em setembro e janeiro.
 
 ## Soma, média e estatísticas descritivas dos elementos de um vetor
 
-Ao longo do tempo, nosso repertório de funções de R aumentará rapidamente. Há um conjunto de funções fáceis de lembrar que são muito úteis para calcular estatísticas descritivas de um vetor (ou de uma variável em um _data frame_). Exemplo: meu consumo de litros de café por mês em 2016.
+Ao longo do tempo, nosso repertório de funções de R aumentará rapidamente. Há um conjunto de funções fáceis de lembrar que são muito úteis para calcular estatísticas descritivas de um vetor (ou de uma variável em um _data frame_). Exemplo: seu consumo de litros de café por mês em 2018.
 
 ```{r}
 litros_cafe <- c(4.3, 3.1, 5.3, 5.5, 6.9, 8.3, 9.7, 9.9, 9.1, 7.0, 6.2, 5.6)
@@ -336,13 +345,15 @@ quantile(litros_cafe, probs = c(0, 0.25, 0.5, 0.75, 1))
 
 Veja que, com a exceção de _quantile_, todas as funções retornam vetores atômicos. _quantile_ retorna um vetor do tamanho do vetor de probabilidades, que é o segundo argumento da função, e que indica os quantis correspondentes a cada valor.
 
+Note também que o vetor utilizado nas operações não contém nenhum valor faltante, _NA_ (_missing value_). Caso houvesse, precisariamos utilizar o argumento _na.rm = TRUE_, que removeria todos os _NAs_ do vetor antes de produzir a operação.
+
 ## Exercício
 
-Com os seus próprios exemplos do exercício acima (palavras e litros de café por mês), use 6 funções acima.
+Com os seus próprios exemplos do exercício acima (palavras e litros de café por mês), aplique 6 funções acima.
 
 ## Subconjunto de um vetor - parte 2
 
-Finalmente, vamos usar operadores relacionais (ao qual voltaremos no início do próximo tutorial) para produzir um exemplo de subconjunto mais interessante. A "Organização Mundial de Bebedores de Café", OMBC, recomenda que o consumo de café não ultrapasse o limite de até 7 litros por mês (inclusive). Vamos observar em quais meses de 2016 eu tomei mais café do que deveria.
+Finalmente, vamos usar operadores relacionais (ao qual voltaremos no início do próximo tutorial) para produzir um exemplo de subconjunto mais interessante. A "Organização Mundial de Bebedores de Café", OMBC, recomenda que o consumo de café não ultrapasse o limite de até 7 litros por mês (ou seja, 7 inclusive). Vamos observar em quais meses de 2016 você tomou mais café do que deveria.
 
 Nomeando o vetor:
 
@@ -402,7 +413,7 @@ as.numeric(f_yes_no)
 
 1 e 2 são os códigos numéricos gerados autormaticamente para "nao" e "sim", respectivamente. O critério para atribuir valores foi a ordem alfabética dos textos transformados em fatores.
 
-Podemos investigar os níveis de um vetor de fatores com a função _levels_:
+Podemos investigar os níveis possíveis de um vetor de fatores com a função _levels_:
 
 ```{r}
 levels(f_yes_no)
@@ -435,12 +446,11 @@ f_tamanho[1] > f_tamanho[2]
 
 Sem ordenarmos, não podemos comparar os níveis e estamos assumindo a variável como sendo nominal.
 
-Para ordernar os níveis de um vetor de fatores, temos que informar alguns parâmetros adicionais -- _order_ e _levels_ -- ao criá-lo:
+Para ordernar os níveis de um vetor de fatores, temos que informar alguns parâmetros adicionais -- _ordered_ e _levels_ -- ao criá-lo:
 
 ```{r}
 f_tamanho <- factor(tamanho, ordered = T, levels <- c("baixo", "medio", "alto"))
 print(f_tamanho)
-
 ```
 Note que a informação sobre os "levels" acompanha a ordem informada, que, neste caso, é diferente da alfabética. Comparações entre os níveis fazem sentido se a variável for ordinal:
 
@@ -451,22 +461,22 @@ f_tamanho[1] > f_tamanho[2]
 f_tamanho > "medio"
 ```
 
-Voltaremos aos "factors" em momento adequado. O importante agora é saber que eles existem e que é uma classe de vetores em R. Atenção especial deve ser dada ao fato de que diversas vezes, ao importarmos bases de dados para o "workspace", o R considera variáveis de texto como sendo "factors", mesmo de maneira inadequada. Para evitar este problema, devemos adotar o argumento "stringAsFactors = F" em diversas funções de importação. Como avisei no início deste tópico, "factors" é um dos aspectos mais confusos em R (em conjunto com "missing values", que vamos adiar até um momento adequado).
+Voltaremos aos "factors" em momento adequado. O importante agora é saber que eles existem e que é uma classe de vetores em R. Ao importar bases de dados para o "Environment", verifique se sua variável foi importada como uma variável de caractere ou fator. Como avisei no início deste tópico, "factors" é um dos aspectos mais confusos em R (em conjunto com "missing values", que vamos adiar até um momento adequado).
 
 ## Exercício
 
-- Crie um vetor de texto com categorias não ordenáveis.
+- Crie um vetor de texto (string/caracter) com categorias não ordenáveis.
 - Crie um vetor de fatores a partir do vetor do item anterior.
 - Traduza os níveis para o inglês (ou para o português se já estiverem em inglês)
-- Crie um vetor de texto com categorias ordenáveis.
-- Crie um vetor de fatores a partir do vetor do item anterior.
-- Compare dois elementos do vetor criado no item anterior
+- Crie um vetor de texto (string/caracter) com categorias ordenáveis.
+- Crie um vetor de fatores a partir do vetor do item anterior, especificando o ordem.
+- Identificar os elementos do vetor que são "maiores que" a categoria intermediária.
 
 ## Matrizes em R
 
-Durante o curso, utilizaremos poucas ou nenhuma vez matrizes. Há uma razão para isso: estamos interessad@s sorbetudo em dados no formato de _data frame_, que é um caso específico de matriz. Ainda assim, convém rapidamente aprender sobre matrizes para, advinhe, entender um pouco mais sobre _data frames_.
+Durante o curso, utilizaremos poucas ou nenhuma vez matrizes. Há uma razão para isso: estamos interessadas sorbetudo em dados no formato de _data frame_, que é um caso mais flexível de uma matriz. Ainda assim, convém rapidamente aprender sobre matrizes para, advinhe, entender um pouco mais sobre _data frames_.
 
-Para matemáticos, matrizes são objetos com uma álgebra própria e parte de uma área denominada Álgebra Linear. Por exemplo, a multiplicação de matrizes, se você lembra dela de seu período de escola ou graduação, segue regras e tem propriedades diferentes da multiplicação de números. Apesar do R ter uma "gramática" para Álgebra Linear (que lembra o MATLAB e Octave), ela não nos interessa agora e a deixaremos de lado.
+Para matemáticos, matrizes são objetos com uma álgebra própria e parte de uma área denominada Álgebra Linear. Por exemplo, a multiplicação de matrizes, se você se lembra dela de seu período de escola ou graduação, segue regras e tem propriedades diferentes da multiplicação de números. Apesar do R ter uma "gramática" para Álgebra Linear (que lembra o MATLAB e Octave), ela não nos interessa agora e a deixaremos de lado.
 
 Para criarmos uma matriz, precisamos de um vetor que contenha o número de elementos a serem inseridos em uma matriz. Para uma matriz de 3 linhas e 3 colunas, precisamos de um vetor de 9 elementos, a exemplo do vetor gerado pelo comando "1:9".
 
@@ -503,10 +513,8 @@ Veja que as margens da matriz não tem nomes. Vamos proceder como fizemos com ve
 ```{r}
 fregueses <- c("Beatriz", "Pedro", "Mateus")
 dias_uteis <- c("Segunda", "Terca", "Quarta", "Quinta", "Sexta")
-
 rownames(cafe) <- dias_uteis
 colnames(cafe) <- fregueses
-
 print(cafe)
 ```
 
@@ -517,7 +525,7 @@ cafe <- matrix(vetor_cafe, byrow = FALSE, nrow = 5,
                dimnames = list(dias_uteis, fregueses))
 ```
 
-E se quisermos trocar as linhas pelas colunas -- processo conhecido como transposição da matriz? Usamos a função _t_. Dica: _c_ e _t_ são funções em R. Evite criar objetos com esse nome.
+E se quisermos trocar as linhas pelas colunas -- processo conhecido como transposição da matriz? Usamos a função _t_. Dica: _c_ e _t_ são funções em R. Evite criar objetos com esses nomes.
 
 ```{r}
 t(cafe)
@@ -540,7 +548,6 @@ As funções _rowSums_ e _colSums_, como é de se esperar, calculam as somas de 
 ```{r}
 rowSums(cafe)
 colSums(cafe)
-
 ```
 
 Combinando as funções de soma com as de combinação (sic), podemos gerar os totais nas margens da matriz:
@@ -548,19 +555,18 @@ Combinando as funções de soma com as de combinação (sic), podemos gerar os t
 ```{r}
 Total_Coluna <- colSums(cafe)
 cafe2 <- rbind(cafe, Total_Coluna)
-
 Total_Linha <- rowSums(cafe2)
 cafe2 <- cbind(cafe2, Total_Linha)
 print(cafe2)
 ```
 
-Como com vetores, podemos fazer operações aritméticas (veja que não estamos falando de Álgebra Linear) com matrizes. Por exemplo, para transformar os gastos com café em doláres (cotação = 3.2):
+Como com vetores, podemos fazer operações aritméticas (veja que não estamos falando de Álgebra Linear) com matrizes. Por exemplo, para transformar os gastos com café em doláres (cotação = 3.9):
 
 ```{r}
-cafe / 3.2
+cafe / 3.9
 ```
 
-Podemos também relizar operações entre matrizes de mesmas dimensões que considerem os elementos de forma pareada, tal como com vetores. Usando as duas matrizes do começo deste tópico:
+Podemos também realizar operações entre matrizes de mesmas dimensões que considerem os elementos de forma pareada, tal como com vetores. Usando as duas matrizes do começo deste tópico:
 
 ```{r}
 matrix(1:9, byrow = TRUE, nrow = 3) + matrix(1:9, byrow = FALSE, nrow = 3)
