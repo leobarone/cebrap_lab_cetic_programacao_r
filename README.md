@@ -22,7 +22,7 @@ Em cada uma das aulas seguiremos tutoriais que cobrem os tópicos do curso e con
 
 ## Programa de aulas
 
-- 18/04/2019 - __Introdução ao curso e R Básico__ - Apresentação dos aspectos essenciais da linguagem e introdução a vetores e data frames (que é o nome dado às matrizes de dados). Com os recursos aprendidos na primeira aula é possível fazer operações básicas em conjuntos de dados.
+- [18/04/2019](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/roteiros/roteiro20190418.md) - __Introdução ao curso e R Básico__ - Apresentação dos aspectos essenciais da linguagem e introdução a vetores e data frames (que é o nome dado às matrizes de dados). Com os recursos aprendidos na primeira aula é possível fazer operações básicas em conjuntos de dados.
 - 02/05/2019 - __Do básico ao intermediário__ - Após termos aprendido sobre data frames, vamos fazer um percurso das funcionalidades básicas da linguagem até alguns de seus usos intermediários. O objetivo do percurso é criar um repertório de funções e utilidades da linguagem que serão utilizados adiante.
 - 13/06/2019 - __Manipulação de dados no R e gramática de dados dplyr__ - Este tópico é sobre uma das especialidades da linguagem R. Veremos como manipular bases de dados para prepará-las para análise. Aprenderemos um pouco da forma básica da linguagem, mas nos concentraremos em aprender os pacotes contemporâneos e mais populares, em particular a "gramática" de manipulação de dados do pacote _dplyr_.
 - 11/07/2019 - __Visualização de dados e a gramática de gráficos ggplot2__ - A segunda especialidade da linguagem R é a visualização de dados. Faremos, nesta quarta aula, um tour pelos principais tipos de gráficos e sua adequação para diferentes tipos de dados.
