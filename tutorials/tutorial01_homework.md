@@ -1,7 +1,3 @@
-```{r setup, include=F}
-knitr::opts_chunk$set(echo = TRUE, eval=F, include=T)
-```
-
 # Manipulação de dados com a gramática do Tidyverse
 
 Um dos aspectos mais incríveis da linguagem R é o desenvolvimento de novas funcionalidades pela comunidade de usuários. Algumas das melhores soluções desenvolvidas são relacionadas à "gramática para bases de dados", ou seja, à maneira como importamos, organizamos, manipulamos e extraímos informações das bases de dados.
@@ -253,7 +249,10 @@ Você pode combinar quantas condições precisar. Se houver ambiguidade quanto �
 Para treinar o que acabamos de ver, abra novamente os dados e produza as seguintes transformações nos dados:
 
 1 - renomeie as variáveis "AREA" e "A4" com o verbo _rename_;
+
 2 - com o verbo _select_, mantenha na base de dados apenas as duas variáveis renomeadas;
+
 3 - com o verbo _mutate_, modifique a variável A4 para transformar os valores 97 ('Não sabe') e 98 ('Não respondeu') em NA (que é o símbolo de missing values em R). Você precisará usar a função _replace_ dentro do verbo _mutate_.
+
 4 - selecine, com _filter_, apenas os respondentes de área rural.
 
