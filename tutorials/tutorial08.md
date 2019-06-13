@@ -1,5 +1,5 @@
 ---
-title: 'Tutorial 8'
+title: 'Tutorial 5'
 output: html_document
 ---
 
@@ -7,399 +7,418 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, eval=F, include=T)
 ```
 
+# Manipulação de dados com a gramática básica do R
 
-Para este tutorial vamos usar novamente dados de Fakeland, como fizemos no tutorial 5. Em vez de apenas 30 observações, agora trabalharemos com um conjunto maior de cidadãos (200) e menos variáveis, para facilitar nosso trabalho.
+A esta altura do campeonato, você já tem bastante recursos para programar em R. Combinando seu conhecimento sobre vetores, _data frames_, tipos de dados, loops, condicionais e funções dá para fazer um bocado de coisas legais. Depois deste tutorial, voltaremos a estes tópicos para exercitar o que aprendemos.
 
-Antes de abrir os dados, vamos começar carregando as duas bibliotecas que utilizaremos no tutorial: _readr_, para ler os dados; e _ggplot2_, para a produção de gráficos:
+Falta, porém, algo essencial e muito próprio da linguagem R: como manipular variáveis e observações em um _data frame_. Boa parte da tarefa de organização de dados para a pesquisa se resume ao que faremos neste tópico. Este é o uso da linguagem R que se aproxima do uso de outras ferramantas como SPSS, Stata e SAS.
+
+A "gramática" básica do R é pouco elegante e essa é uma das barreiras ao aprendizado da linguagem. Ela é bem mais confusa e "verbosa" (ou seja, tem que escrever muito para realizar pouco) do que as dos demais softwares de análise de dados e do _tidyverse_ que vamos explorar no próximo tutorial. Mas sem conhecer como funciona a "gramática" básica da linguagem R, nossa capacidade de aprender mais no futuro ficaria bastante limitada. Lembre-se que aprenderemos num futuro breve formas equivalentes de fazermos as mesmas coisas.
+
+## Variáveis e data frames
+
+Para esta atividade, vamos trabalhar com um banco de dados falso criado para a atividade.
+
+Abra o banco de dados usando _read\_delim_:
 
 ```{r}
-library(readr)
-library(ggplot2)
-```
-
-A seguir, carregue os dados, que estão no repositório do curso:
-
-```{r}
-url_fake_data <- "https://raw.githubusercontent.com/leobarone/cebrap_lab_programacao_r/master/data/fake_data_2.csv"
+library(tidyverse)
+url_fake_data <- "https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/fake_data.csv"
 fake <- read_delim(url_fake_data, delim = ";", col_names = T)
 ```
 
-## ggplot2: uma gramática de dados
+Fakeland é uma democracia muito estável que realiza eleições presidenciais a cada 4 anos. Vamos trabalhar com o conjunto de dados falso de cidadãos individuais de Fakeland que contém informações sobre suas características básicas e opiniões / posições políticas (falsas). A descrição das variáveis está abaixo:
 
-Em conjunto com a gramática de manipulação de dados do _dplyr_, a gramática de gráficos _ggplot2_ é um dos destaques da linguagem R. Além de flexível e aplicável a diversas classes de objetos (data frames, objetos de mapa e redes, por exemplo), a qualidade dos gráficos é excepcionalmente boa.
+- _age_: idade
+- _sex_: sexo
+- _educ_: nível educacional
+- _income_: renda mensal medida em dinheiro falso (FM \ $)
+- _savings_: Dinheiro falso total (FM \ $) na conta de poupança
+- _marriage_: estado civil (sim = casado)
+- _kids_: número de filhos
+- _party_: afiliação partidária
+- _turnout_: intenção de votar nas próximas eleições
+- _vote\_history_: número de eleições presidenciais votou desde as eleições de 2002
+- _economy_: opinião sobre o desempenho da economia nacional
+- _incumbent_: opinião sobre o desempenho do presidente
+- _candidate_: candidato preferido
 
-Existe uma forte ligação entre a gramática de _dplyr_ e a gramática de _ggplot2_: toda a informação para o nosso gráfico vem de um data.frame; cada linha em nosso data.frame é uma 'unidade' a ser exibida no gráfico, e cada coluna em nosso data.frame é uma variável que determina um aspeto visual específico do gráfico, incluindo posição, cor, tamanho e forma.
+## Exercício
 
-Neste tutorial vamos priorizar a compreensão da estrutura do código para produzir gráficos com _ggplot2_ a partir de alguns exemplos simples e propositalmente não cobriremos todas as (inúmeras) possibilidades de visualização.
+Utilize as funções que você já conhece -- _head_, _dim_, _names_, _str_, etc -- para conhecer os dados. Quantas linhas há no _data frame_? Quantas colunas? Como estão armazenadas cada variável (tipo de dados e classe dos vetores colunas)?
 
-Você verá, depois de um punhado de gráficos, que a estrutura pouco muda de um tipo de gráfico a outro. Quando precisar de um "tipo" novo de gráfico, ou, como denominaremos a partir de agora, de uma nova "geometria", bastará aprender mais uma linha de código a ser adicionada ao final de um código já conhecido.
+## Data frame como conjunto de vetores
 
-Vamos logo a um primeiro exemplo para clarificar o assunto.
-
-## Um primeiro exemplo de gráficos com uma variável discreta
-
-Queremos conhecer a distribuição de preferências de candidato à presidência na amostra de cidadãos de Fakeland. Veja como apresentar essa informação com o pacote _ggplot2_:
-
-```{r}
-ggplot(data = fake) +
-  geom_bar(aes(x = candidato))
-```
-
-Bastante estranho, não? Vamos olhar cada uma de suas partes.
-
-Comecemos pela primeira linha. A principal função do código é, como era de se esperar, _ggplot_ (sem o 2 mesmo). Note que não estamos fazendo uma atribuição, por enquanto, pois queremos apenas "imprimir" o gráfico, e não guardá-lo como objeto (algo perfeitamente possível!).
-
-O argumento da função _ggplot_ é "data", ou seja, o objeto que contém os dados a serem visualizados. No nosso caso, o data frame _fake_. 
-
-Até aqui, nada de novo. Agora, para adicionar uma geometria, colocamos um símbolo de "+" após fechar o parêntesis da função _ggplot_ e, convencionalmente na linha seguinte, utilizarmos a função da geometria correspondente. Cada "+" nos permite adicionar mais uma camada em nosso gráfico. Mas qual camada? Nós definimos uma camada principalmente por sua _geometria_ - o tipo de representação visual dos nossos dados que queremos. _geom\_bar_ indica que queremos uma geometria de barras, como um 'bar chart' em excel. 
-
-Crucialmente, a escolha da geometria depende do tipo de dados que você deseja visualizar de seu dados.frame. Aqui, analisamos a distribuição de preferências de candidato à presidência, que é uma variável discreta (caráter ou fator), então usamos uma geometria que corresponda com dados discretos. A lógica de um gráfico de barras é representar a contagem de frequência de cada categoria discreta, então faz sentido usar _geom\_bar_ como a nossa geometria. Vamos ver exemplos de outras geometrias que corespondam com outros dados debaixo.
-
-Dentro da camada de geometria, a mais estranhesa vem com as 3 letrinhas "aes" que são a abreviação de "aesthetics". Aqui definiremos quais variáveis de nosso data.frame farão parte do gráfico. Estamos trabalhando por enquanto com apenas uma variável, representada no eixo horizontal, ou eixo "x". Por esta razão preenchemos o parâmetro "x" da "aesthetics" e nada mais.
-
-## Gráficos com uma variável contínua - Gráficos de histogramas
-
-Vamos trocar rapidamente para uma variável contínua, renda, alterando o valor de "x" dentro de "aesthetics".
+No primeiro tutorial construímos um _data frame_ a partir de vetores de mesmo tamanho e "pareados", ou seja, com as posições das informações representando cada observação. Para trabalhar com variáveis do _data frame_ como vetores usamos o símbolo "$" separando o nome do _data frame_ da variável. Por exemplo, escrevemos fake\$age para indicar a variável "age" no _data frame_ "fake":
 
 ```{r}
-ggplot(data = fake) + 
-  geom_bar(aes(x = renda))
+print(fake$age)
 ```
 
-Este gráfico está em branco, por quê? Tentamos representar uma variável contínua com uma geometria construído para variáveis discretas. Como cada valor de renda é único, existe uma barra (minúscula) para cada indivíduo e o gráfico não faz sentido. Precisamos mudar o geometria - o equivalente de um gráfico de barras para variáveis contínuas é um histogram, então usamos _geom\_histogram_.
+Podemos fazer uma cópia do vetor "age" que não seja variável do "fake"? Sim:
 
 ```{r}
-ggplot(data = fake) + 
-  geom_histogram(aes(x = renda))
+idade <- fake$age
+print(idade)
 ```
 
-Faz mais sentido? Espero que sim. Compare os dois códigos dos gráficos acima com calma e compreenda as diferenças. Note que o tipo de variável que demanda uma(s) geometria(s) específica(s), e não contrário.
+Porque não podemos simplesmente usar "age" e precisamos colocar o nome do _data frame_ seguido de "$" para indicar o vetor do conjunto de dados? Por que podemos ter mais de um _data frame_ no mesmo __Environment__ com uma variável de nome "age". Pense no _data frame_ + nome da variável como um endereço composto da variável no seu Environment, que evita ambiguidade. Para quem está aconstumada a trabalhar com SPSS, Stata ou SAS, ter que indicar qual é o _data frame_ ao qual a variável pertence parece estranho, mas faz todo sentido para o R.
 
-### Exercício
-Use o banco de dados de Fakeland para criar um gráfico que mostra o nível de apoio para cada partido, e um gráfico que mostra a distribuição da idade (trata idade como uma variável contínua). 
+Outros exemplos simples de como usar variáveis de um _data frame_ em outras funções (algumas das quais veremos no futuro, mas você já pode ir se acostumando à linguagem).
 
-### Parâmetros fixos 
-
-As geometrias, cada uma com sua função, também têm parâmetros que podem ser alterados. Por exemplo, as barras do histograma que acabamos de produzir são muito "fininhas". Vamos aumentar sua largura, ou seja, vamos representar mais valores do eixo "x" em cada barra do histograma:
+Gráfico de distribuição de uma variável contínua:
 
 ```{r}
-ggplot(data = fake) + 
-  geom_histogram(aes(x = renda), binwidth = 4000)
+plot(density(fake$age), main = "Distribuição de Idade", xlab = "Idade")
+
 ```
 
-Uma observação crucial aqui: o binwidth é especificado _fora_ do _aes()_. Por que? Porque existe uma regra importante no _ggplot2_ - Parâmetros que variam dependendo de nossos dados devem ficar dentro de _aes()_; Parâmetros fixos que não depende de nossos dados devem ficar fora do _aes()_. Então, em nosso código, temos dentro de _aes()_ uma variavel, renda, e fora de _aes()_ um número exógeno, 4000. 
-
-O gráfico está muito cinza. Se quisemos mudar algumas cores, onde vamos especificar novos parâmetros de cores? Desde que os cores ficam fixos para todo o gráfico e não depende de nossos dados, fora de _aes()_.
+Gráfico de dispersão de duas variáveis contínuas:
 
 ```{r}
-ggplot(data = fake) + 
-  geom_histogram(aes(x = renda), binwidth = 4000, colour = "red", fill = "green")
+plot(fake$age, fake$savings, main = "Idade x Poupança", xlab = "Idade", ylab = "Poupança")
 ```
 
-Melhor, não? Certamente não! Mas note que podemos trocar as contornos das barras e seu preenchimento. Em geral, os argumentos "colour" e "fill" servem a várias geometrias.
-
-Curiosidade: R aceita as duas grafias em inglês para a palavra cor, "colour" (britânico) e "color" (americano).
-
-# Gráficos com uma variável contínua - Gráficos de densidade
-Histogramas são normalmente bastante adequados para variáveis numéricas com valores bastante espaçados, como é o caso de variáveis discretas numéricas (valores inteiros apenas).
-
-Uma alternativa mais elegante ao histograma, e convencionalmente utilizada para variáveis verdadeiramente contínuas, são os gráficos de densidade. Vamos, assim, apenas alterar a geometria para a mesma variável, renda, e observar novamente sua distribuição. A lição é que, embora a geometria deva corresponder ao tipo de dados, existem várias geometrias que podem funcionar para qualquer tipo de dado específico (histogram ou densidade, por exemplo).
-
-Nota: a partir de agora vamos omitir o nome do parâmetro "data" logo no início do código.
+Tabela de uma variável categórica (contagem):
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda))
+table(fake$party)
 ```
 
-Lindo, mas ainda cinza demais. Vamos adicionar cor à borda:
+Tabela de duas entradas para duas variávels categóricas (contagem):
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda), colour="blue")
+table(fake$party, fake$candidate)
 ```
 
-Melhor (melhor?), mas ainda muito branco. Vamos adicionar cor ao interior da curva:
+No começo pode parecer um pouco irritante usar o "endereço" completo da variável, mas você logo se acostuma.
+
+## Dimensões em um data frame
+
+Tal como uma matriz, um _data frame_ tem duas dimensões: linha e coluna. Se queremos selecionar elementos de um _data frame_, podemos usar colchetes separados por uma vírgula, e inserir antes da vírgula uma seleção de linhas e depois da vírgula uma seleção de colunas -- [linhas, colunas]. Vejamos alguns exemplos de seleção de linhas:
+
+Quinta linha fazemos:
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda), colour="blue", fill="blue")
+fake[5, ]
 ```
 
-Muito pior. E se deixássemos a curva mais "transparente"?
+Quinta e a oitava linhas:
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda), colour="blue", fill="blue",alpha=0.2)
+fake[c(5,8), ]
 ```
 
-Agora sim melhorou. Mas nos falta uma referência para facilitar a leitura do gráfico. Por exemplo, seria legal adicionar uma linha vertical que indicasse onde está a média da distribuição. Vamos calcular a média da renda:
+As linhas 4 a 10:
 
 ```{r}
-media_renda <- mean(fake$renda)
+fake[4:10,]
 ```
 
-Mas estamos tratando de curvas de densidade, não estamos? Nessa geometria não há possibilidade de representar valores com uma linha vertical. Vamos, então, adicionar uma nova geometria, com uma "aesthetics" própria, com novos dados (no caso, um valor único), ao gráfico que já havíamos construído:
+Agora alguns exemplos de colunas. Segunda coluna:
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda), colour="blue", fill="blue",alpha=0.2) +
-  geom_vline(aes(xintercept = media_renda))
+fake[, 2]
 ```
 
-Veja que, com _ggplot2_ podemos adicionar novas geometrias e dados sempre que precisarmos. Agora, temos duas camadas e duas geometrias. É por esta razão que a estrutura do código deste pacote difere tanto da estrutura para gráficos no pacote base. A flexibilidade adicionar geometrias (usando ou não os dados inicialmente apontados) é uma das vantagens do _ggplot2_ 
-
-Para tornar o gráfico mais interessante, vamos alterar a forma e a cor da linha adicionada no gráfico anterior:
+Note que o resultado é semelhante ao de:
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda), colour="blue", fill="blue",alpha=0.2) +
-  geom_vline(aes(xintercept = media_renda),
-             linetype="dashed",
-             colour="red")
+fake$sex
 ```
 
-"linetype" é outro parâmetro comum a diversas geometrias (obviamente, as geometrias de linhas).
+No entanto, no primeiro caso estamos produzindo um _data frame_ de uma única coluna, enquanto no segundo estamos produzinho um vetor. Exceto pela classe, são idênticos.
 
-### Exercício
-
-Crie um gráfico de densidade de idade e adicione uma linha vertical que indica as pessoas com mais de 21 anos de idade. Ajuste a formatação para usar as mesmas cores do site da USP.
-
-## Gráficos com uma variável contínua e uma variável discreta
-
-Vamos dar alguns passos para traz e retornar aos histogramas. E se quisermos comparar as distribuições de renda por sexo, por exemplo? Precisamos filtrar os dados e fazer um gráfico para cada categoria de sexo?
-
-Poderíamos. Mas mais interessante é compara as distribuições em um mesmo gráfico. Para fazer isso, precisamos saber como visualizar duas variáveis do nosso data.frame ao mesmo tempo. Como estamos separando uma distribuição de uma variável contínua (renda) em duas, a partir de uma segunda variável discreta (sexo), precisamos adicionar essa nova variável à "aesthetics". Veja como:
+Segunda e sétima colunas:
 
 ```{r}
-ggplot(fake) + 
-  geom_histogram(aes(x = renda, fill = sexo), binwidth = 4000, position = "identity")
+fake[, c(2,7)]
 ```
 
-Observe que adicionamos o parâmetro "fill" à "aesthetics" (fora do _aes()_ porque ele não depende de nossos dados). Isso significa que a variável sexo separará as distribuições de renda em cores de preenchimento diferentes. Conseguem ver as duas distribuições, uma atrás da outra? Note que agora temos uma legenda.
-
-"position" é o que determina como as barras ficarão dispotas uma em relação à outra. Vamos ver outras opções para o mesmo parâmetro (novamente, comum a várias geometrias) para buscar uma opção mais adequada de visualizar os mesmos dados:
+Três primeiras colunas:
 
 ```{r}
-ggplot(fake) + 
-  geom_histogram(aes(x = renda, fill = sexo), binwidth = 4000, position = "dodge")
+fake[, 1:3]
 ```
 
-Um pouco melhor?
+## Exercício
 
-Vamos tentar algo semelhante com as curvas de densidade. Em vez de "fill", vamos usar a variável sexo em "colour" na "aesthetics" e separa as distribuições por cores de borda:
+Qual é a idade do 17o. indivíduo? Qual é o candidato de preferência do 25o. indivíduo?
+
+## Seleção de colunas com nomes das variáveis
+
+Neste _data frame_ as linhas não têm nomes (mas poderiam ter). As colunas, no entanto, sempre têm. A regra é trabalharmos com muito mais linhas do que colunas e por esta razão os nomes das colunas costumam ser mais úteis do que os das linhas. Podemos usar os nomes das colunas no lugar de suas posições para selecioná-las.
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda, colour = sexo))
+fake[, c("age", "income", "party")]
 ```
 
-Agora sim está melhor. Vamos adicionar o mesmo com "fill":
+Mas o código seguinte não é válido, pois o operador ":" serve somente para gerar sequências de números inteiros.
+
+```{r, error = T}
+fake[, "age":"sex"]
+```
+
+Frequentemente, há um número grande de colunas desnecessárias em bancos de dados públicos. Para liberar memória do computador e trabalhar com um _data frame_ menor, fazemos uma seleção de colunas exatamente como acima, seja usando sua posição ou seu nome e geramos um _data frame_ novo (ou sobrescrevemos o atual). Veja um exemplo com "fake":
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda, fill = sexo))
+new_fake <- fake[, c("age", "income", "party", "candidate")]
 ```
 
-Não ficou muito bom. Mas pode melhorar. Com o parâmetro "alpha", que já usamos no passado, podemos deixar as distribuições mais "transparentes" e observar as áreas nas quais se sobrepôe:
+
+E se quiseremos todas as colunas menos "turnout" e "vote_history"? Podemos usar a função _setdiff_, que gera a diferença entre dois vetores, por exemplo, o vetor com todos os nomes de colunas (gerado com a função _names_) e o vetor com as colunas que desejamos excluir. Vamos guardar o resultado em "new\_fake2"
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda, fill = sexo), alpha=0.5)
+selecao_colunas <- setdiff(names(fake), c("turnout", "vote_history"))
+print(selecao_colunas)
+new_fake2 <- fake[,selecao_colunas]
 ```
 
-Finalmente, podemos usar "fill" e "colour" juntos na "aesthetics"
+## Selecionando linhas com operadores relacionais
+
+No item acima fizemos uma seleção de colunas nos dados usando os nomes das colunas. Bancos de dados com muitas colunas, como os Censos Populacional e Escolar, ou o Latinobarômetro, não são tão comuns e raramente o número de colunas ultrapassa as poucas centenas.
+
+O que fazer, então, com as linhas, que são normalmente muito mais numerosas, as vezes na casa dos milhões? Precisamos utilizar operadores relacionais. Vamos fazer isso dando passos curtos para entendermos todo o processo.
+
+Vamos supor que queremos selecionar apenas os indivíduos que pretendem votar na próxima eleição (variável "turnout"). Podemos gerar um vetor lógico que represente essa seleção:
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda, fill = sexo, colour = sexo), alpha = 0.5)
+fake$turnout == "Yes"
 ```
 
-Que belezura de gráfico! A comparação de distribuições de uma variável contínua por uma variável discreta (aqui binária  - duas categorias) é uma das mais úteis em ciência, pois é exatamente a forma gráfica de testes de hipóteses. Qual grupo tem, na média, mais renda em Fakeland? Com os gráficos fica fácil responder
-
-### Exercício
-
-As pessoas mais ricas do Fakeland estão mais propensas a serem membros do partido "Conservative Party"? Crie um gráfico claro para mostrar a relação entre essas variáveis.
-
-## Gráficos com uma variável contínua e uma variável discreta - Gráficos de boxplot
-
-Vamos repetir o gráfico acima, mas, em vez de separar as distribuições por sexo, vamos separar por uma variável com mais categorias: 'educ', que representa nível educacional mais alto obtido pelo indivíduo em Fakeland.
+Vamos guardar esse vetor lógico em um objeto denominado "selecao\_linhas"
 
 ```{r}
-ggplot(fake) + 
-  geom_density(aes(x = renda, fill = educ, colour = educ), alpha = 0.5)
+selecao_linhas <- fake$turnout == "Yes"
+print(selecao_linhas)
 ```
 
-Dá par comparar as distribuições de idade por grupo? Certamente não. Podemos ter alguma ideia de que não há muita diferença, mas o gráfico é poluído demais.
-
-Uma alternativa mais sintética, ou seja, que contém menos informações, para representar distribuições de variáveis numéricas é utilizar boxplot. Vamos ver um exemplo que serve de alternativa ao gráfico anterior.
-
-Nota: na nova "aesthetics" temos agora "x" (eixo horizontal) e "y", eixo vertical.
+Agora, podemos inserir esse vetor lógico na posição das linhas dentro dos colchetes para gerar um novo conjunto de dados que atenda à condição (intenção de votar):
 
 ```{r}
-ggplot(fake) + 
-  geom_boxplot(aes(x = educ, y = renda))
+fake_will_vote <- fake[selecao_linhas, ]
 ```
 
-Importante: se você não tem familiaridade com boxplots, me peça uma rápida explicação.
-
-Ainda que com perda de informação, conseguimos compara as distribuições de renda por nível educacional de forma bastante rápida. A média renda das pessoas com "college degree" é maior que os outros, e a variação na renda para aqueles com "High school degree" é grande. Para colocar um pouco de cor nos boxplots, podemos usar "fill" novamente:
+Basicamente, para fazermos uma seleção podemos usar a posição das linhas (ou das colunas), seus nomes ou um vetor lógico do mesmo tamanho das linhas (ou colunas). Sequer precisamos fazer o passo a passo acima. Veja um exemplo que gera um _data frame_ de indivíduos que se identificam como "Independent":
 
 ```{r}
-ggplot(fake) + 
-  geom_boxplot(aes(x = educ, y = renda, fill = educ))
+fake_independents <- fake[fake$party == "Independent", ]
 ```
 
-Gráfico de barras, para variáveis categóricas, e histogramas, curvas de densidade e boxplot são os melhores gráficos para explorarmos as distribuição de variáveis quando queremos conhecer os dados que recém coletamos ou obtemos.
-
-## Gráficos de duas variáveis contínuas
-
-Até agora trabalhamos com distribuições de uma única variável ou com a distribuição conjunta de uma variável contínua por outra discreta (em outras palavras, separados a distribuição de uma variável em várias a partir de um variável categórica).
-
-Vamos ver agora como relacionar graficamente duas variáveis contínuas. O padrão é usarmos a geometria de gráfico de dispersão, que presenta cada par de informações como uma coordenada no espaço bidimensional. Vamos ver um exemplo com idade (eixo horizontal) e renda (eixo vertical) usando a geometria _geom\_point_:
+Podemos, obviamente, combinar condições e usar os operador lógicos ("ou", "e" e "não") para fazer seleções mais complexas:
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda))
+fake_married_young_no_college <- fake[fake$marriage == "Yes" & 
+                                       fake$age <= 30 & 
+                                       !(fake$educ == "College Degree or more"), ]
 ```
 
-Você consegue ler este gráfico? Cada ponto representa um indivíduo, ou seja, posiciona no espaço o par (idade, renda) daquela(e) indivíduo.
+## Exercício
 
-Note que há uma certa tendência nos dados: quanto mais velha a pessoa, maior sua renda. Podemos representar essa relação com modelos lineares e não lineares. A geometria _geom\_smooth_ cumpre esse papel.
+Produza um novo _data frame_ com apenas 5 variáveis -- "sex", age", "income", "economy" e "candidate" -- e que contenha apenas eleitores homens, ricos ("income" maior que FM\$ 3 mil, que é dinheiro pra caramba em Fakeland) e inclinados a votar no candidato "Trampi".
 
-Para utilizá-la, precisamos definir qual é o método (parâmetro "method") de ajuste aos dados. O mais convencional é representar a relação entre as variáveis como reta. Veja o exemplo (ignore o parâmetro "se" por enquanto):
+Quais as dimensões do novo _data frame_? Qual é a idade média dos eleitores no novo _data frame_? Qual é a soma da renda no novo _data frame_?
+
+## Função subset
+
+Uma maneira alternativa de fazer a seleção de linhas é usar a função _subset_. Veja como (repetindo o exemplo de indivíduos identificados como "independentes"):
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda)) +
-  geom_smooth(aes(x = idade, y = renda), method = "lm", se = FALSE)
+fake_independents <- subset(fake, party == "Independent")
 ```
 
-Legal, não? Se retirarmos o parâmetro "se", ou voltarmos seu valor para o padrão "TRUE", obteremos também o intervalo de confiança da reta que inserimos.
+O resultado é o mesmo e você pode achar essa maneira mais elegante. Veremos, no futuro, outra ainda mais simples com o pacote _dplyr_.
+
+## Criando uma nova coluna
+
+Criar uma nova coluna em um _data frame_ é trivial. Por exemplo, vamos criar a coluna "vazia", onde colocaremos apenas "missing values", que são representados no R por "NA"
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda)) +
-  geom_smooth(aes(x = idade, y = renda), method = "lm")
+fake$vazia <- NA
 ```
 
-Modelos de regressão, linear ou não, estão bastante fora do escopo deste curso. Mas podemos falar sobre isso individualmente se você quiser. Tente apenas interpretar o resultado gráfico.
-
-A alternativa não linear para representar a relação ao dados mais utilizada com essa geometria é o método "loess". Veja o resultado:
+Podemos criar uma coluna a partir de outra(s). Por exemplo, vamos criar duas novas colunas, "poupança", que será igual a coluna "savings" mas em real (cotação de um FM\$ -- fake money -- é R\$ 17) e a coluna "savings\_year", que será a divisão de "savings" por anos do indíviduo a partir dos 18.
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda)) +
-  geom_smooth(aes(x = idade, y = renda), method = "loess")
+fake$poupanca <- fake$savings / 17
+fake$savings_year <- fake$savings / (fake$age - 18)
 ```
 
-## Gráficos de três ou mais variáveis
+Você pode fazer qualquer operação com vetores que vimos em tutoriais anteriores para criar novas variáveis. A única imposição é que os vetores tenham sempre o mesmo tamanho, o que não é um problema em um _data frame_.
 
-Em geral, estamos limitados por papel e telas bidimensionais para exibir apenas geometrias de duas variáveis. Mas existe um truque que podemos usar para mostrar mais informações - traga os outros parâmetros de uma geometria - os cores, tamanhos e formas - dentro de _aes_ (para que eles podem variar) e conecte-os a uma variável em seu data.frame. 
-
-Se, por exemplo, queremos representar uma terceira variável numérica, podemos colocá-la como o tamanho dos pontos (raio do círculo). Por exemplo, o número de filhos, variável que vai de 1 a 10 nos nossos dados, poderia ser adicionada da seguinte forma:
+Se quiser substituir o conteúdo de uma variável em vez de gerar uma nova, o procedimento é o mesmo. Basta atribuir o resultado da operação entre vetores à variável existente, tal qual no exemplo, que transforma "age" em uma variável medida em meses:
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda, size = filhos))
+fake$age <- fake$age  * 12
 ```
 
-Se, em vez de alterar o tamanho dos pontos por uma variável numérica, quisermos alterar sua cor ou forma dos pontos com base em uma variável categória (sexo, por exemplo), fazemos, respectivamente:
+
+Vamos ver agora como substituir valores em uma variável para depois aprendermos a recodificarmos variáveis.
+
+## Substituindo valores em um variável
+
+Vamos "traduzir" para o português a variável "party". Faremos isso alterando cada uma das categorias individualmente e, por enquanto, sem usar nenhuma função que auxilie a substituição de valores. Começemos com uma tabela simples da variável "party"
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda, colour = sexo))
+table(fake$party)
 ```
 
-Ou:
+Agora, observe o resultado do código abaixo:
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda, shape = sexo))
+fake$party[fake$party == "Independent"]
 ```
 
-Nota: cada símbolo é representado por um número e você encontra facilmente na documentação a tabela de códigos dos diferentes símbolos.
-
-Alterando simultaneamente cor e forma:
+Fizemos um subconjunto de apenas uma variável do _data frame_, e não do _data frame_ todo. Note a ausência da vírgula dentro dos colchetes. Se atribuirmos algo a essa selação, por exemplo, o texto "Independente", substituiremos os valores da seleção:
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda, colour = sexo, shape = sexo))
+fake$party[fake$party == "Independent"] <- "Independente"
 ```
 
-Adicionando uma reta de regressão para cada categoria de sexo:
+Observe o resultado na tabela:
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda, colour = sexo, shape = sexo)) +
-  geom_smooth(aes(x = idade, y = renda, colour = sexo, shape = sexo), method = "lm", se = F)
+table(fake$party)
 ```
 
-Lindo, não?
+## Exercício
 
-Existe mais um outro jeito de mostrar mais de duas variáveis - podemos criar vários gráficos organizados em uma grade sem ter que repetir nosso código toda vez. Como fazer isso? Com _face\_grid_ ou _facet\_wrap_. Veja um exemplo:
+Traduza para o português as demais categorias da variável "party".
+
+## Substituição com o comando replace
+
+O procedimento de substituir valores em uma mesma variável pode ser alternativamente realizado com a função _replace_. Vamos traduzir para o português a variável "sex"
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda)) +
-  facet_wrap(~sexo)
+fake$sex <- replace(fake$sex, fake$sex == "Female", "Mulher")
+fake$sex <- replace(fake$sex, fake$sex == "Male", "Homem")
+table(fake$sex)
 ```
 
-### Exercício
+## Recodificando uma variável
 
-Vamos usar o banco de dados menor de Fakeland para investigar a relação entre renda, poupança e número de crianças. Começando com o código debaixo, crie um gráfico de dispersão entre renda (income) e poupança (savings), e ajuste o tamanho de cada ponto dependendo do número de crianças (kids). 
+Vamos supor que não nos interessa trabalhar com renda ("income") como variável contínua. Vamos transformá-la na variável "rich", que receberá valor "rich" se a renda for maior que FM\$ 3 mil e "not rich" caso contrário. Seguiremos o seguinte procedimento: criaremos uma variável com "missing values"; substituiremos os valores para os indivíduos ricos; e depois substituiremos os valores para os não-ricos. Note que a seleção da variável "rich" para a substituição de valores é feita utilizando a variável "income":
 
 ```{r}
-fake_menor <- read_delim(file1 <- "https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/fake_data.csv", delim = ";", col_names = T)
+fake$rich <- NA
+fake$rich[fake$income > 3000] <- "rich"
+fake$rich[fake$income <= 3000] <- "not rich"
+table(fake$rich)
 ```
 
-## Aspectos não relacionados à geometria
+## Exercício
 
-Finalmente, podemos alterar diversos aspectos não relacionados aos dados, geometria e "aesthetics". O procedimento para adicionar alterações em título, eixos, legenda, etc, é o mesmo que para adicionar novas geometrias/camadas.
+Utilize o que você aprendeu sobre transformações de variáveis neste tutorial e o sobre fatores ("factors") no tutorial 2 para transformar a variável "rich" em um fator.
 
-Em primeiro lugar, vamos adicionar um título ao gráfico:
+## Exercício (mais um)
+
+Crie a variável "kids2" que indica se o indivíduo tem algum filho (TRUE) ou nenhum (FALSE). Dica: essa é uma variável de texto, e não numérica.
+
+## Recodificando uma variável contínua com a função cut
+
+Quando vamos recodificar uma variável contínua para uma variável categórica, podemos usar a função _cut_. Vamos repetir o exemplo da criação da variável "rich", agora com "rich2":
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda, colour = sexo)) +
-  ggtitle("Renda por idade, separado por sexo")
+fake$rich2 <- cut(fake$income, 
+                  breaks = c(-Inf, 3000, Inf), 
+                  labels = c("não rico", "rico"))
+table(fake$rich2)
 ```
 
-A seguir, vamos modificar os nomes dos rótulos dos eixos:
+Algumas observações importantes: (1) se a nova variável tiver 2 categorias, precisamos de 3 "break points"; (2) "-Inf" e "Inf" são os símbolos do R para menos e mais infinito, respectivamente; por padrão, o R não inclui o primeiro "break point" na primeira categoria, exceto se o argumento "include.lowest" for alterado para TRUE; (3) também por padrão, os intervalos são fechados à direita, e abertos à esquerda (ou seja, incluem o valor superior que delimita o intervalor, mas não o inferior), exceto se o argumento "right" for alterado para FALSE.
+
+## Exercício
+
+Crie a variável "poupador", gerada a partir de savings\_year (que criamos anteriormente), e que separa os indivíduos que poupam muito (mais de FM/$ 1000 por ano) dos que poupam pouco. Use a função _cut_.
+
+## Recodificando uma variável contínua com a função recode
+
+O equivalente da função _cut_ para variáveis categóricas, estejam elas como texto ou como fatores, é a função _recode_ (do pacote _dplyr_ no tidyverse). Seu uso é simples e intuitivo. Vamos recodificar como exemplo a variável "educ":
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda, colour = sexo)) +
-  ggtitle("Renda por idade, separado por sexo") +
-  xlab("Idade (em anos inteiros)") +
-  ylab("FM$ (Fake Money)")
+fake$college <- recode(fake$educ, 
+                       "No High School Degree" = "No College",
+                       "High School Degree" = "No College",
+                       "College Incomplete" = "No College",
+                       "College Degree or more" = "College")
+
+table(fake$college)
 ```
 
-O _ggplot_ nos permite modificar basicamente todos os elementos de estilo do nosso gráfico, mas isso é muitos detalhes. Para alterar o estilo do nosso gráfico, é mais fácil usar um tema ( _theme_ ) pré-definido. Por exemplo, podemos usar _theme\_classic_ para tirar o preenchimento e a grade do fundo. 
+Podemos comparar as mudanças com uma tabela de 2 entradas:
 
 ```{r}
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda, colour = sexo)) +
-  ggtitle("Renda por idade, separado por sexo") +
-  xlab("Idade (em anos inteiros)") +
-  ylab("FM$ (Fake Money)") +
-  theme_classic()
+table(fake$college, fake$educ)
 ```
 
-Os temas também podem ser usados para replicar estilos de outras fontes profissionais, por exemplo usando o pacote _ggthemes_. Debaixo criamos um gráfico usando o estilo da revista "The Economist" em uma linha só de código.
+## Exercício
+
+Crie a variável "economia", que os indivíduos que avaliam a economia (variável "economy") como "Good" ou "Very good" recebem o valor "positivo" e os demais recebem "negativo".
+
+## Ordenar linhas e remover linhas duplicadas:
+
+Finalmente, vamos ordenar linhas em um banco de dados e aprender a remover duplicidades. Com a função _order_, podemos gerar um vetor que indica qual a posição que cada linha deveria receber no ordenamento desejado. Vamos ordernar "fake" por renda.
 
 ```{r}
-install.packages("ggthemes")
-library(ggthemes)
-
-ggplot(fake) + 
-  geom_point(aes(x = idade, y = renda, colour = sexo)) +
-  ggtitle("Renda por idade, separado por sexo") +
-  xlab("Idade (em anos inteiros)") +
-  ylab("FM$ (Fake Money)") +
-  theme_economist()
+ordem <- order(fake$income)
+print(ordem)
 ```
 
-### Exercício
+Se aplicarmos um vetor numérico com um novo ordenamento à parte destinada às linhas no colchetes, receberemos o _data frame_ ordenado:
 
-Melhore seu gráfico do exercício anterior especificando um título, títulos de eixos e um tema de sua preferência.
+```{r}
+fake_ordenado <- fake[ordem, ]
+head(fake_ordenado)
+```
+
+Poderíamos ter aplicado a função order diretamente dentro dos colchetes:
+
+
+```{r}
+fake_ordenado <- fake[order(fake$income), ]
+```
+
+Para encerrar, vamos duplicar articialmente parte dos nossos dados (as 10 primeiras linhas) usando o comando _rbind_, que "empilha" dois _data frames_:
+
+```{r}
+fake_duplicado <- rbind(fake, fake[1:10, ])
+```
+
+Vamos ordenar para ver algumas duplicidades:
+
+```{r}
+fake_duplicado[order(fake_duplicado$income), ]
+```
+
+E agora removemos da seguinte maneira:
+
+```{r}
+fake_novo <- fake_duplicado[!duplicated(fake_duplicado),]
+```
+
+Note que precisamos da exclamação (operador lógico "não") para ficar com todas as linhas __não__ duplicadas.
+
+## Renomeando variáveis
+
+Em breve veremos como renomear variáveis de uma maneira bastante mais simples. Por enquanto, vamos aprender o jeito trabalhoso de renomear um variável.
+
+Podemos observar os nomes das variáveis de um _data frame_ usando o comando _names_:
+
+```{r}
+names(fake)
+```
+
+Os nomes das colunas são um vetor. Para renomear as variáveis, basta substituir o vetor de nomes por outro. Por exemplo, vamos manter todas as variáveis com o mesmo nome, exceto as três primeiras:
+
+```{r}
+names(fake) <- c("idade", "sexo", "educacao", "income", "savings", "marriage", "kids", "party", "turnout", "vote_history", "economy", "incumbent", "candidate", "vazia", "poupanca", "savings_year", "rich", "rich2", "college")
+head(fake)
+```
+
+Você não precisa de um vetor com todos os nomes sempre que precisar alterar algum. Basta conhecer a posição da variável que quer alterar. Veja um exemplo com "marriage", que está na sexta posição:
+
+```{r}
+names(fake)[6] <- "casado"
+```
+
+Simples, porém um pouco mala.
