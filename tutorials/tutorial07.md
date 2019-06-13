@@ -141,7 +141,7 @@ ticdom_srvyr %>%
   group_by(sexo_f, raca_f) %>%
   summarize(proporcao = survey_mean()) %>%
   select(-proporcao_se) %>% 
-  spread(area_f, proporcao)
+  spread(sexo_f, proporcao)
 ```
 
 Podemos, como já fizemos acima, fazer com que o conteúdo sumarizado não seja apenas a proporção em cada respota da variável de agrupamento, mas uma estatística descritiva de uma terceira variável.  Além disso, ademais de _survey\_mean_ e _survey\_total_, podemos utilizar outras função sumário do pacote _srvyr_: _survey\_mediam_, _survey\_quantile_.
