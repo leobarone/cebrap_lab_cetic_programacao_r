@@ -87,7 +87,7 @@ ticdom <- ticdom %>%
          desktop_n = a2_qtd_desk,
          tablet_n = a2_qtd_tab,
          internet = A4,
-         tipo_conexao = A5,
+         tipo_conexao = A7,
          preco_internet = A9,
          estrato = ESTRATO,
          peso = PESO,
