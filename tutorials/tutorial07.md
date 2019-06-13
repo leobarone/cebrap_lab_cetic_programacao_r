@@ -33,7 +33,7 @@ A média e tabela parecem corretas. No entanto, o cálculo de médias desconside
 
 ## Survey em R: _survey_ vs _srvyr_
 
-A principal solução para dados de survey em R até a pouco tempo era o pacote _survey_. Você pode aprender sobre como trabalhar com dados da PNAD com o pacote _survey_ neste tutorial [aqui]
+A principal solução para dados de survey em R até a pouco tempo era o pacote _survey_. Você pode aprender sobre como trabalhar com dados da PNAD com o pacote _survey_ neste tutorial [aqui](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial09.md)
 
 O pacote _survey_, no entanto, traz uma restrição bastante importante: seu uso é imcompatível com a gramática do _dplyr_ que, além de ágil, é a mais popular em R. _survey_ traz um dialéto próprio e limita seu uso às funções que foram implementadas pelos desenvolvedores do pacote.
 
