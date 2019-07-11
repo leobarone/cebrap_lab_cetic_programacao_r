@@ -30,11 +30,9 @@ Em cada uma das aulas seguiremos tutoriais que cobrem os tópicos do curso e con
 
 - [13/06/2019](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/roteiros/roteiro20190613.md)- __Manipulação de dados no R e gramática de dados dplyr__ - Este tópico é sobre uma das especialidades da linguagem R. Veremos como manipular bases de dados para prepará-las para análise. Aprenderemos um pouco da forma básica da linguagem, mas nos concentraremos em aprender os pacotes contemporâneos e mais populares, em particular a "gramática" de manipulação de dados do pacote _dplyr_. Veremos também como utilizar a gramática do _dplyr_ com dados de survey com auxílio do pacote _srvyr_.
 
-- 11/07/2019 - __Visualização de dados e a gramática de gráficos ggplot2__ - A segunda especialidade da linguagem R é a visualização de dados. Faremos, nesta quarta aula, um tour pelos principais tipos de gráficos e sua adequação para diferentes tipos de dados.
+- [11/07/2019](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/roteiros/roteiro20190711.md) - __Bases de dados relacionais com _dplyr_ e Visualização de dados com a gramática de gráficos _ggplot2_ __ - A segunda especialidade da linguagem R é a visualização de dados. Faremos, nesta quarta aula, um tour pelos principais tipos de gráficos e sua adequação para diferentes tipos de dados.
 
 - 08/08/2019 - __Desafios e finalização dos tutoriais__ - O tempo de aprendizado de cada participante é único. Deixaremos o último dia para terminar os tutoriais das aulas anteriores ou para realizar desafios de análise de dados que atendam aos interesses de cada participante.
-
-Como teremos um intervalo grande entre as aulas, disponibilizarei atividades simples para mantermos o ritmo de aprendizado e treinar o uso da linguagem.
 
 ## Edições anteriores do curso
 
