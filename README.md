@@ -32,7 +32,24 @@ Em cada uma das aulas seguiremos tutoriais que cobrem os tópicos do curso e con
 
 - [11/07/2019](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/roteiros/roteiro20190711.md) - __Bases de dados relacionais com _dplyr_ e Visualização de dados com a gramática de gráficos _ggplot2___ - A segunda especialidade da linguagem R é a visualização de dados. Faremos, nesta quarta aula, um tour pelos principais tipos de gráficos e sua adequação para diferentes tipos de dados.
 
-- 08/08/2019 - __Desafios e finalização dos tutoriais__ - O tempo de aprendizado de cada participante é único. Deixaremos o último dia para terminar os tutoriais das aulas anteriores ou para realizar desafios de análise de dados que atendam aos interesses de cada participante.
+- [08/08/2019](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/roteiros/roteiro20190808.md) - __Desafios e finalização dos tutoriais__ - O tempo de aprendizado de cada participante é único. Deixaremos o último dia para terminar os tutoriais das aulas anteriores ou para realizar desafios de análise de dados que atendam aos interesses de cada participante.
+
+## Links diretos para os tutoriais
+
+- [Tutorial 1](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial01.md): Introdução
+- [Tutorial 2](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial02.md): O básico de R
+- [Tutorial 3](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial03.md): Operadores, condicionais e Loops
+- [Tutorial 4](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial04.md): Abertura de dados em R
+- [Tutorial 5](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial05.md): Manipulação de dados com a gramática do _dplyr_
+- [Tutorial 6](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial06.md): Continuagndo com o _dplyr_: Group by, Summarise, Arrange e Slice
+- [Tutorial 7](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial07.md): Survey em R: _survey_ vs _srvyr_
+- [Tutorial 8](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial08.md): Manipulação de dados com a gramática básica do R
+- [Tutorial 9](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial09.md): PNAD em R
+- [Tutorial 10](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial10.md): Bases de dados relacionais
+- [Tutorial 11](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial11.md): Introdução ao _ggplot2_
+- [Tutorial 12](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial12.md): Mais sobre _ggplot2_
+- [Tutorial 13](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial13.md): Gráficos a partir de dados de survey
+- [Tutorial 14](https://github.com/leobarone/cebrap_lab_cetic_programacao_r/blob/master/tutorials/tutorial14.md): Combinando diversas bases de dados
 
 ## Edições anteriores do curso
 
