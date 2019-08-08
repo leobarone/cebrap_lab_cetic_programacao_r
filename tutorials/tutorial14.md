@@ -126,7 +126,7 @@ Nossa segunda estratégia começa pela criação de um vetor para cada elemento 
 
 ```{r}
 anos <- 2015:2017
-urls_dados <- c(url_2015, url_2016, url_2017)
+url_dados <- c(url_2015, url_2016, url_2017)
 var_peso <- c('Peso', 'Peso', 'PESO')
 var_estrato <- c('ESTRATO', 'Estrato', 'ESTRATO')
 var_c1 <- c('C1', 'C1', 'C1')
@@ -152,11 +152,14 @@ Antes de começarmos o for loop, criaremos um objeto vazio que receberá os dado
 Um detalhe importante: quando estivermos utilizando o nome de variável dentro de maneira genérica dentro do for loop, precisaremos adicionar dois pontos de exclamação antes para que os verbos do dplyr não confudam nome de variável com um simples texto.
 
 ```{r}
+uso_internet <- NULL
+
 for(i in 1:3){
 
   uso_internet_ano <- url_dados[i] %>% 
     read_csv2() %>% 
-    rename(internet = !!var_c1[i]) %>% 
+    rename(internet = !!var_c1[i]) %>%
+    mutate(internet = as.character(internet)) %>% 
     as_survey_design(strata = !!var_estrato[i], weights = !!var_peso[i]) %>%
     group_by(internet) %>% 
     summarise(n = survey_total()) %>% 
